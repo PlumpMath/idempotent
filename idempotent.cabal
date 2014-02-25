@@ -19,7 +19,7 @@ library
     base == 4.*
   exposed-modules:
     Data.Monoid.Idempotent
-  GHC-options:         -Wall -Werror
+  GHC-options:         -Wall
 
 test-suite tests
   type:              exitcode-stdio-1.0
