@@ -4,6 +4,7 @@ synopsis:            Idempotent monoids
 description:
   A typeclass, and instances, for monoids that are idempotent.
 homepage:            https://github.com/prophile/idempotent
+bug-reports:         https://github.com/prophile/idempotent/issues
 license:             MIT
 license-file:        LICENSE
 author:              Alistair Lynn
