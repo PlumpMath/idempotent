@@ -1,9 +1,12 @@
+-- | Extrema (minimum and maximum) monoids.
 module Data.Monoid.Extrema(Min(Min), getMin, Max(Max), getMax) where
 
 import Data.Monoid
 import Data.Monoid.Idempotent
 
+-- |Monoid under minimum.
 newtype Min x = Min { getMin :: x } deriving (Show, Read, Ord, Eq)
+-- |Monoid under maximum.
 newtype Max x = Max { getMax :: x } deriving (Show, Read, Ord, Eq)
 
 instance (Bounded x, Ord x) => Monoid (Min x) where
