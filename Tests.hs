@@ -11,6 +11,9 @@ import Test.QuickCheck.Function
 import Data.Monoid
 
 import Data.Monoid.Idempotent
+import Data.Monoid.Extrema
+
+import Data.Int
 
 main :: IO ()
 main = hspec $ do
@@ -72,3 +75,37 @@ main = hspec $ do
     describe "with five elements" $ do
       it "satisfy the idempotence law" $ property $ do
         \x y z w v -> (x, y, z, w, v) `mappend` (x, y, z, w, v) `shouldBe` (x :: Ordering, y :: Ordering, z :: Ordering, w :: Ordering, v :: Ordering)
+
+  describe "Extrema" $ do
+    describe "Min" $ do
+      it "yields the minimum element" $ property $ do
+        \x y -> Min x `mappend` Min y `shouldBe` Min (min x (y :: Int32))
+
+      it "has a left-identity" $ property $ do
+        \x -> Min x `mappend` mempty `shouldBe` Min (x :: Int32)
+
+      it "has a right-identity" $ property $ do
+        \x -> mempty `mappend` Min x `shouldBe` Min (x :: Int32)
+
+      it "is associative" $ property $ do
+        \x y z -> (Min x `mappend` Min y) `mappend` Min z `shouldBe` Min x `mappend` (Min y `mappend` Min (z :: Int32))
+
+      it "satisfies the idempotence law" $ property $ do
+        \x -> Min x `mappend` Min x `shouldBe` Min (x :: Int32)
+
+    describe "Max" $ do
+      it "yields the maximum element" $ property $ do
+        \x y -> Max x `mappend` Max y `shouldBe` Max (max x (y :: Int32))
+
+      it "has a left-identity" $ property $ do
+        \x -> Max x `mappend` mempty `shouldBe` Max (x :: Int32)
+
+      it "has a right-identity" $ property $ do
+        \x -> mempty `mappend` Max x `shouldBe` Max (x :: Int32)
+
+      it "is associative" $ property $ do
+        \x y z -> (Max x `mappend` Max y) `mappend` Max z `shouldBe` Max x `mappend` (Max y `mappend` Max (z :: Int32))
+
+      it "satisfies the idempotence law" $ property $ do
+        \x -> Max x `mappend` Max x `shouldBe` Max (x :: Int32)
+
