@@ -1,5 +1,5 @@
 name:                idempotent
-version:             0.1.1
+version:             0.1.2
 synopsis:            Idempotent monoids
 description:
   A typeclass, and instances, for monoids that are idempotent.
