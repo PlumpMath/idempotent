@@ -120,8 +120,14 @@ main = hspec $ do
       it "is associative" $ property $ do
         \x y z -> (Min x `mappend` Min y) `mappend` Min z `shouldBe` Min x `mappend` (Min y `mappend` Min (z :: Int32))
 
+      it "is commutative" $ property $ do
+        \x y -> (Min x `mappend` Min y) `shouldBe` (Min y `mappend` Min (x :: Int32))
+
       it "satisfies the idempotence law" $ property $ do
         \x -> Min x `mappend` Min x `shouldBe` Min (x :: Int32)
+
+      it "is functionally identical to All for booleans" $ property $ do
+        \x y -> getMin (Min x `mappend` Min y) `shouldBe` getAll (All x `mappend` All y)
 
     describe "Max" $ do
       it "yields the maximum element" $ property $ do
@@ -136,6 +142,12 @@ main = hspec $ do
       it "is associative" $ property $ do
         \x y z -> (Max x `mappend` Max y) `mappend` Max z `shouldBe` Max x `mappend` (Max y `mappend` Max (z :: Int32))
 
+      it "is commutative" $ property $ do
+        \x y -> (Max x `mappend` Max y) `shouldBe` (Max y `mappend` Max (x :: Int32))
+
       it "satisfies the idempotence law" $ property $ do
         \x -> Max x `mappend` Max x `shouldBe` Max (x :: Int32)
+
+      it "is functionally identical to Any for booleans" $ property $ do
+        \x y -> getMax (Max x `mappend` Max y) `shouldBe` getAny (Any x `mappend` Any y)
 
