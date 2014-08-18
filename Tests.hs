@@ -14,6 +14,12 @@ import Data.Monoid.Idempotent
 import Data.Monoid.Extrema
 
 import Data.Int
+import qualified Data.Set as Set
+import qualified Data.IntSet as IntSet
+import qualified Data.Map.Lazy as ML
+import qualified Data.Map.Strict as MS
+import qualified Data.IntMap.Lazy as IML
+import qualified Data.IntMap.Strict as IMS
 
 main :: IO ()
 main = hspec $ do
@@ -75,6 +81,30 @@ main = hspec $ do
     describe "with five elements" $ do
       it "satisfy the idempotence law" $ property $ do
         \x y z w v -> (x, y, z, w, v) `mappend` (x, y, z, w, v) `shouldBe` (x :: Ordering, y :: Ordering, z :: Ordering, w :: Ordering, v :: Ordering)
+
+  describe "sets" $ do
+    it "satisfies the idempotence law" $ property $ do
+      \x' -> let x = Set.fromList x' in (x :: Set.Set Int) `mappend` x `shouldBe` x
+
+  describe "IntSet" $ do
+    it "satisfies the idempotence law" $ property $ do
+      \x' -> let x = IntSet.fromList x' in x `mappend` x `shouldBe` x
+
+  describe "lazy map" $ do
+    it "satisfies the idempotence law" $ property $ do
+      \x' -> let x = (ML.fromList x' :: ML.Map Integer String) in x `mappend` x `shouldBe` x
+
+  describe "strict map" $ do
+    it "satisfies the idempotence law" $ property $ do
+      \x' -> let x = (MS.fromList x' :: MS.Map Integer String) in x `mappend` x `shouldBe` x
+
+  describe "lazy int map" $ do
+    it "satisfies the idempotence law" $ property $ do
+      \x' -> let x = (IML.fromList x' :: IML.IntMap String) in x `mappend` x `shouldBe` x
+
+  describe "strict int map" $ do
+    it "satisfies the idempotence law" $ property $ do
+      \x' -> let x = (IMS.fromList x' :: IMS.IntMap String) in x `mappend` x `shouldBe` x
 
   describe "Extrema" $ do
     describe "Min" $ do
